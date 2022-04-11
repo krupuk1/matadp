@@ -1,0 +1,37 @@
+name: Windows-CRD
+
+on: 
+  workflow_dispatch:
+    inputs:
+      authcode:
+        description: 'Enter CRD code, url: https://remotedesktop.google.com/headless'
+        required: true
+      pincode:
+        description: 'Six digit Pin'
+        required: true
+      password:
+        description: 'VPS password'
+        required: true
+  
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Initializing Setup
+      run: ./setup.ps1
+    - name: Starting CRD
+      run: ${{ github.event.inputs.authcode }} -pin=${{ github.event.inputs.pincode }}
+    - name: setup important things...
+      run: |
+        net user runneradmin ${{ github.event.inputs.password }}
+        echo "User: 'runneradmin', Password: '${{ github.event.inputs.password }}'"
+        net user installer ${{ github.event.inputs.password }}
+        echo "User: 'installer', Password: '${{ github.event.inputs.password }}'"
+        Set-DisplayResolution -Width 1366 -Height 768 -Force
+        echo "Windows Resolution has been setten to (1366, 768)"]
+        Copy-Item -Path "./WindowsFormsApp2.exe" -Destination "C:\Users\runneradmin\timer.exe" -Recurse
+        Start-Process -FilePath "C:\Users\runneradmin\timer.exe"
+    - name: Keep Alive
+      run: ./timeout.ps1
