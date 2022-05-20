@@ -31,7 +31,5 @@ jobs:
         echo "User: 'installer', Password: '${{ github.event.inputs.password }}'"
         Set-DisplayResolution -Width 1366 -Height 768 -Force
         echo "Windows Resolution has been setten to (1366, 768)"]
-        Copy-Item -Path "./WindowsFormsApp2.exe" -Destination "C:\Users\runneradmin\timer.exe" -Recurse
-        Start-Process -FilePath "C:\Users\runneradmin\timer.exe"
     - name: Keep Alive
       run: ./timeout.ps1
