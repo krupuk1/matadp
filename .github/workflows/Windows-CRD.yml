@@ -19,8 +19,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Initializing Setup
-      run: ./setup.ps1
+    #- name: Initializing Setup
+     # run: ./setup.ps1
     - name: Starting CRD
       run: ${{ github.event.inputs.authcode }} -pin=${{ github.event.inputs.pincode }}
     - name: setup important things...
